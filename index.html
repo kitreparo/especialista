@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUNAGEM BÁSICA BENNYS</title>
+    <style>
+        /* CSS Global */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 0;
+            padding: 10px;
+            min-height: 100vh;
+        }
+
+        /* Painel principal */
+        #panel {
+            width: 100%;
+            max-width: 100%;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #dde6f0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        /* Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #dde6f0;
+            padding: 10px;
+            font-size: 0.9em;
+            text-align: left;
+            color: #34495e;
+        }
+
+        th {
+            background-color: #2980b9;
+            color: #ffffff;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+
+        td {
+            background-color: #ecf0f1;
+        }
+
+        td:hover {
+            background-color: #f5f7fa;
+        }
+
+        /* Estilo da célula de quantidade */
+        .quantity-cell {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quantity-cell input {
+            width: 45%;
+            padding: 8px;
+            border: 1px solid #dde6f0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1em;
+        }
+
+        .quantity-cell button {
+            width: 25%;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            background-color: #2980b9;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .quantity-cell button:hover {
+            background-color: #3498db;
+        }
+
+        /* Total */
+        .total {
+            font-weight: 700;
+            text-align: right;
+            margin-top: 15px;
+            font-size: 1.1em;
+            color: #2980b9;
+        }
+
+        /* Botão de reset */
+        button#reset-button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button#reset-button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Subtítulo para sub-tabelas */
+        .sub-table-container h2 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        /* Responsividade - CSS Mobile-First */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            .quantity-cell input {
+                width: 40%;
+            }
+
+            .quantity-cell button {
+                width: 20%;
+            }
+
+            .total {
+                font-size: 1em;
+            }
+
+            button#reset-button {
+                padding: 12px;
+                font-size: 1em;
+            }
+        }
+
+        /* Ajustes para telas médias (Tablets ou similares) */
+        @media (min-width: 601px) and (max-width: 1199px) {
+            #panel {
+                max-width: 90%;
+            }
+
+            table {
+                font-size: 1em;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .quantity-cell input {
+                width: 50%;
+            }
+
+            .quantity-cell button {
+                width: 20%;
+            }
+
+            .total {
+                font-size: 1.1em;
+            }
+
+            button#reset-button {
+                padding: 15px;
+                font-size: 1.1em;
+            }
+        }
+
+        /* Ajustes para telas maiores (Desktop) */
+        @media (min-width: 1200px) {
+            #panel {
+                max-width: 80%;
+                margin: 0 auto;
+            }
+
+            table {
+                font-size: 1.1em;
+            }
+
+            th, td {
+                padding: 12px;
+            }
+
+            .quantity-cell input {
+                width: 60%;
+            }
+
+            .quantity-cell button {
+                width: 10%;
+            }
+
+            .total {
+                font-size: 1.2em;
+            }
+
+            button#reset-button {
+                padding: 20px;
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="panel">
+        <h1>TABELA DE PREÇO BENNYS</h1>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Serviço</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="setup-table">
+                    <!-- A tabela será preenchida dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+        <div class="sub-table-container">
+            <h2>VALOR DA MÁQUINA</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Serviço</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="machine-value-table">
+                    <!-- Sub-tabela do valor da máquina -->
+                </tbody>
+            </table>
+        </div>
+        <div class="total-wrapper">
+            <p class="total">Valor Total: <span id="total-value">R$0.00</span></p>
+        </div>
+        <button id="reset-button">Resetar</button>
+    </div>
+
+    <script>
+        const setupTable = document.getElementById("setup-table");
+        const machineValueTable = document.getElementById("machine-value-table");
+        const totalValue = document.getElementById("total-value");
+        const resetButton = document.getElementById("reset-button");
+
+        // Dados dos serviços em centavos (sem casas decimais)
+        const services = [
+            { service: "FULL TUNING CARRO", price: 100000, quantity: 0 },
+            { service: "FULL TUNING MOTO", price: 80000, quantity: 0 },
+            { service: "PERFORMANCE 2", price: 35000, quantity: 0 },
+            { service: "ESTÉTICA", price: 10000, quantity: 0 },
+            { service: "CORES E PEROLADO", price: 15000, quantity: 0 },
+            { service: "RODA COMUM", price: 20000, quantity: 0 },
+            { service: "TUNING SOLO", price: 20000, quantity: 0 },
+            { service: "XENON / NEON", price: 15000, quantity: 0 },
+            { service: "ADESIVO (PINTURA)", price: 10000, quantity: 0 },
+            { service: "RODA IMPORTADA", price: 35000, quantity: 0 },
+        ];
+
+        // Serviço de sub-tabela: VALOR DA MÁQUINA
+        const machineValue = { service: "VALOR DA MÁQUINA", price: 1, quantity: 0 };
+
+        // Função para formatar valores em BRL (em centavos, sem separadores de milhar)
+        function formatCurrency(value) {
+            return `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`;
+        }
+
+        // Atualiza o total de uma linha específica
+        function updateRowTotal(row, service) {
+            const totalCell = row.querySelector(".total-cell");
+            const total = service.price * service.quantity;
+            totalCell.textContent = formatCurrency(total);
+        }
+
+        // Atualiza o total geral
+        function updateTotal() {
+            let total = 0;
+
+            // Soma os valores da tabela principal
+            services.forEach(service => {
+                total += service.price * service.quantity;
+            });
+
+            // Soma os valores da sub-tabela
+            total += machineValue.price * machineValue.quantity;
+
+            totalValue.textContent = formatCurrency(total);
+        }
+
+        // Cria as linhas para a tabela de serviços
+        function createServiceRow(service) {
+            const row = document.createElement("tr");
+
+            const serviceCell = document.createElement("td");
+            serviceCell.textContent = service.service;
+            row.appendChild(serviceCell);
+
+            const priceCell = document.createElement("td");
+            priceCell.textContent = formatCurrency(service.price);
+            row.appendChild(priceCell);
+
+            const quantityCell = document.createElement("td");
+            quantityCell.className = "quantity-cell";
+
+            // Botões de incremento e decremento
+            const decrementButton = document.createElement("button");
+            decrementButton.textContent = "-";
+            decrementButton.addEventListener("click", () => {
+                if (service.quantity > 0) {
+                    service.quantity--;
+                    quantityInput.value = service.quantity;
+                    updateRowTotal(row, service);
+                    updateTotal();
+                }
+            });
+
+            const quantityInput = document.createElement("input");
+            quantityInput.type = "number";
+            quantityInput.className = "quantity-input";
+            quantityInput.value = service.quantity;
+            quantityInput.min = 0;
+            quantityInput.addEventListener("input", (e) => {
+                const quantity = Math.max(0, parseInt(e.target.value));
+                service.quantity = quantity;
+                updateRowTotal(row, service);
+                updateTotal();
+            });
+
+            const incrementButton = document.createElement("button");
+            incrementButton.textContent = "+";
+            incrementButton.addEventListener("click", () => {
+                service.quantity++;
+                quantityInput.value = service.quantity;
+                updateRowTotal(row, service);
+                updateTotal();
+            });
+
+            quantityCell.appendChild(decrementButton);
+            quantityCell.appendChild(quantityInput);
+            quantityCell.appendChild(incrementButton);
+            row.appendChild(quantityCell);
+
+            const totalCell = document.createElement("td");
+            totalCell.className = "total-cell";
+            totalCell.textContent = formatCurrency(service.price * service.quantity);
+            row.appendChild(totalCell);
+
+            return row;
+        }
+
+        // Cria as linhas para a sub-tabela (VALOR DA MÁQUINA)
+        function createMachineValueRow() {
+            const row = document.createElement("tr");
+
+            const serviceCell = document.createElement("td");
+            serviceCell.textContent = machineValue.service;
+            row.appendChild(serviceCell);
+
+            const priceCell = document.createElement("td");
+            priceCell.textContent = formatCurrency(machineValue.price);
+            row.appendChild(priceCell);
+
+            const quantityCell = document.createElement("td");
+            quantityCell.className = "quantity-cell";
+
+            // Botões de incremento e decremento
+            const decrementButton = document.createElement("button");
+            decrementButton.textContent = "-";
+            decrementButton.addEventListener("click", () => {
+                if (machineValue.quantity > 0) {
+                    machineValue.quantity--;
+                    quantityInput.value = machineValue.quantity;
+                    updateRowTotal(row, machineValue);
+                    updateTotal();
+                }
+            });
+
+            const quantityInput = document.createElement("input");
+            quantityInput.type = "number";
+            quantityInput.className = "quantity-input";
+            quantityInput.value = machineValue.quantity;
+            quantityInput.min = 0;
+            quantityInput.addEventListener("input", (e) => {
+                const quantity = Math.max(0, parseInt(e.target.value));
+                machineValue.quantity = quantity;
+                updateRowTotal(row, machineValue);
+                updateTotal();
+            });
+
+            const incrementButton = document.createElement("button");
+            incrementButton.textContent = "+";
+            incrementButton.addEventListener("click", () => {
+                machineValue.quantity++;
+                quantityInput.value = machineValue.quantity;
+                updateRowTotal(row, machineValue);
+                updateTotal();
+            });
+
+            quantityCell.appendChild(decrementButton);
+            quantityCell.appendChild(quantityInput);
+            quantityCell.appendChild(incrementButton);
+            row.appendChild(quantityCell);
+
+            const totalCell = document.createElement("td");
+            totalCell.className = "total-cell";
+            totalCell.textContent = formatCurrency(machineValue.price * machineValue.quantity);
+            row.appendChild(totalCell);
+
+            return row;
+        }
+
+        // Função para resetar todos os valores
+        function reset() {
+            services.forEach(service => {
+                service.quantity = 0;
+            });
+            machineValue.quantity = 0;
+
+            // Atualiza as tabelas
+            updateAllTables();
+        }
+
+        // Atualiza todas as tabelas
+        function updateAllTables() {
+            setupTable.innerHTML = "";
+            machineValueTable.innerHTML = "";
+
+            services.forEach(service => {
+                setupTable.appendChild(createServiceRow(service));
+            });
+
+            machineValueTable.appendChild(createMachineValueRow());
+            updateTotal();
+        }
+
+        // Resetar os valores ao clicar no botão
+        resetButton.addEventListener("click", reset);
+
+        // Inicialização
+        updateAllTables();
+    </script>
+</body>
+</html>
